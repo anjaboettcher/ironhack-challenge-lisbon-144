@@ -12,11 +12,17 @@ function Celebrities() {
         "https://api.themoviedb.org/3/person/popular?page=1&api_key=14554504c9b5654e1105067797153dcd"
       )
       .then(response => {
-        console.log("DEBUG response.data.items", response.data.items);
-        setCelebrities(response.data.items); // Change the state and re-render the component
+        console.log("DEBUG response.data", response.data);
+        setCelebrities(response.data); // Change the state and re-render the component
       });
-    })
-    
+      return () => {
+        console.log("Cleanup");
+      };
+    }, []);
+
+
+    console.log("CELEBRITIES", celebrities)
+
 
   return (
     <div>
@@ -30,10 +36,10 @@ function Celebrities() {
           </tr>
         </thead>
         <tbody>
-          {celebrities.map(celebrity => (
-            <tr key={celebrity.id}>
+          {celebrities.results && celebrities.results.map((celebrity, i) => (
+            <tr key={i}>
               <td>
-              <img src= {`https://image.tmdb.org/t/p/w185/${celebrity.profile_path}`} alt="celebrity_img" width="20px" height="50px"  />
+              <img src= {`https://image.tmdb.org/t/p/w185/${celebrity.profile_path}`} alt="celebrity_img" width="80px" height="120px"  />
               </td>
               <td>
                 {celebrity.name}
